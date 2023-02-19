@@ -1,7 +1,5 @@
-import './App.css';
+import "./App.css";
 import React, { useState } from "react";
-
-
 
 function MinecraftServers() {
   const [servers, setServers] = useState([
@@ -16,7 +14,10 @@ function MinecraftServers() {
   async function fetchServerStatus() {
     const newCounts = {};
     for (const server of servers) {
-      const response = await fetch(`https://api.mcsrvstat.us/2/${server.address}`);
+      const response = await fetch(
+        //maybe switch to https://mcstatus.io
+        `https://api.mcsrvstat.us/2/${server.address}`
+      );
       const data = await response.json();
       if (data.online) {
         newCounts[server.address] = data.players.online;
@@ -34,15 +35,21 @@ function MinecraftServers() {
   return (
     <div>
       <h1>MC WarZ Player Counts</h1>
+      
+      
       <ul>
         {servers.map((server) => (
           <li key={server.address}>
             <p>
-              <strong>{server.name}</strong>: {playerCounts[server.address] ?? "Unknown"}
+              <strong>{server.name}</strong>:{" "}
+              {playerCounts[server.address] ?? "Unknown"}
             </p>
           </li>
         ))}
       </ul>
+      <p>
+        <strong>Info:</strong> This app shows the current player count for each of the BMcBrawl.com WarZ Minecraft servers (x.mc-warz.com). It may take 2 minutes for the player count to update properly.
+      </p>
       <button onClick={handleRefreshClick}>Refresh</button>
     </div>
   );
